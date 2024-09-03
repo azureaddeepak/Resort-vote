@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resort Voting</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+        }
+        .container {
+            display: inline-block;
+            text-align: left;
+            border: 1px solid #ccc;
+            padding: 20px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Vote for the Resort Visit on 15 Sep</h1>
+        <form id="voteForm">
+            <input type="radio" id="yes" name="vote" value="yes">
+            <label for="yes">Yes</label><br>
+            <input type="radio" id="no" name="vote" value="no">
+            <label for="no">No</label><br><br>
+            <input type="button" value="Vote" onclick="submitVote()">
+        </form>
+        <h2>Results</h2>
+        <p>Yes: <span id="yesCount">0</span></p>
+        <p>No: <span id="noCount">0</span></p>
+        <br>
+        <input type="button" value="Clear Results" onclick="clearResults()">
+    </div>
+
+    <script>
+        // Initialize vote counts from localStorage if available
+        let yesCount = parseInt(localStorage.getItem('yesCount')) || 0;
+        let noCount = parseInt(localStorage.getItem('noCount')) || 0;
+
+        // Update displayed counts
+        document.getElementById('yesCount').textContent = yesCount;
+        document.getElementById('noCount').textContent = noCount;
+
+        function submitVote() {
+            const form = document.getElementById('voteForm');
+            const vote = form.vote.value;
+
+            if (vote) {
+                if (vote === 'yes') {
+                    yesCount++;
+                    localStorage.setItem('yesCount', yesCount);
+                } else if (vote === 'no') {
+                    noCount++;
+                    localStorage.setItem('noCount', noCount);
+                }
+                document.getElementById('yesCount').textContent = yesCount;
+                document.getElementById('noCount').textContent = noCount;
+                alert('Thank you for voting!');
+                form.reset();
+            } else {
+                alert('Please select an option.');
+            }
+        }
+
+        function clearResults() {
+            yesCount = 0;
+            noCount = 0;
+            localStorage.setItem('yesCount', yesCount);
+            localStorage.setItem('noCount', noCount);
+            document.getElementById('yesCount').textContent = yesCount;
+            document.getElementById('noCount').textContent = noCount;
+            alert('Results have been cleared!');
+        }
+    </script>
+</body>
+</html>
